@@ -24,7 +24,7 @@
 //  -  Order 2 : 1 desk lamp ($20 each)
 //  -  Order 3 : 3 hand towels ($8 each)
 
-import Ember from 'ember';
+// import Ember from 'ember';
 
 const Order = Ember.Object.extend({
   orderPrice: Ember.computed('price', 'quantity', function(){
@@ -38,10 +38,10 @@ const Cart = Ember.Object.extend({
     return this.get('orders');
   },
   orders: [],
-  totalPrice: Ember.computed('orders.@each.orderPrice', function(){
+  totalPrice: Ember.computed('orders', function(){
     let orders = this.get('orders');
     return orders.reduce((prev, curr) => {
-      return prev + curr.orderPrices;
+      return prev + curr.get('orderPrice');
     },0);
   })
 });
@@ -72,5 +72,8 @@ let exampleCart = Cart.create({
   ]
 });
 
-console.log(exampleCart);
-console.log(exampleCart.totalPrice);
+console.log('example cart: ', exampleCart);
+console.log('example cart orders: ', exampleCart.get('orders'));
+console.log('example cart first order: ', exampleCart.get('orders')[0]);
+console.log('example cart first order price: ', exampleCart.get('orders')[0].get('orderPrice'));
+console.log('example cart total price: ', exampleCart.get('totalPrice'));
